@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_this, unnecessary_new
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,14 +18,18 @@ class LoginController with ChangeNotifier {
   // fucntion for google login
   googleLogin() async {
     this.googleSignInAccount = await _googleSignIn.signIn();
-    // inserting values to our user details model
 
     this.userDetails = new UserDetails(
       displayName: this.googleSignInAccount!.displayName,
       email: this.googleSignInAccount!.email,
       photoURL: this.googleSignInAccount!.photoUrl,
     );
-    await Authentication.addUser(this.googleSignInAccount!.id);
+    await Authentication.addUser(
+        this.googleSignInAccount!.displayName,
+        this.googleSignInAccount!.id,
+        this.googleSignInAccount!.email,
+        'date of birth',
+        this.googleSignInAccount!.photoUrl);
 
     // call
 
